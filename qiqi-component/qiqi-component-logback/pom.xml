@@ -3,19 +3,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.github.felixlyd</groupId>
-        <artifactId>qiqi-gateway</artifactId>
+        <artifactId>qiqi-component</artifactId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>qiqi-component</artifactId>
+    <artifactId>qiqi-component-logback</artifactId>
     <name>${project.artifactId}</name>
-    <description>qiqi-component</description>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>qiqi-component-undertow</module>
-        <module>qiqi-component-logback</module>
-    </modules>
+    <description>qiqi-component-logback</description>
 
 </project>

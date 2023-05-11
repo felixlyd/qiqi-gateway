@@ -1,8 +1,49 @@
-# Spring
 spring:
   application:
-    # 应用名称
     name: qiqi-app
-  profiles:
-    # 环境配置
-    active: prod
+  jackson:
+    date-format: yyyyMMddHHMMss
+    time-zone: GMT+8
+
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+# actuator监控
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      # health和info可见, gateway允许动态增加路由
+      # 包括所有端点
+      exposure:
+        include: "*"
+        # 排除端点
+        exclude: shutdown
+  endpoint:
+    shutdown:
+      enabled: false
+    gateway:
+      enabled: true
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}%n) - %msg%n"
+  file:
+    path: /home/logs/${spring.application.name}

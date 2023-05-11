@@ -1,19 +1,19 @@
 package com.github.felixlyd;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * class QiqiApplication: do something
+ * class QiqiMetricApplication: do something
  *
  * @author : liuyaodong
- * @date 2023/5/9
+ * @date 2023/5/11
  */
-@EnableDiscoveryClient
 @SpringBootApplication
-public class QiqiApplication {
+@EnableAdminServer
+public class QiqiMetricApplication {
     public static void main(String[] args) {
-        SpringApplication.run(QiqiApplication.class,args);
+        SpringApplication.run(QiqiMetricApplication.class, args);
     }
 }
