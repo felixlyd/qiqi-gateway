@@ -2,11 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.github.felixlyd</groupId>
     <artifactId>qiqi-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
+
     <name>qiqi-gateway</name>
     <description>qiqi-gateway</description>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,30 +18,7 @@
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-sentinel-datasource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -65,6 +45,17 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+
+    </dependencies>
+
+    <modules>
+        <module>qiqi-app</module>
+        <module>qiqi-component</module>
+        <module>qiqi-graphic</module>
+    </modules>
+    <packaging>pom</packaging>
+
     <build>
         <plugins>
             <plugin>
@@ -77,24 +68,32 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <configuration>
-                    <mainClass>com.github.felixlyd.qiqigateway.QiqiGatewayApplication</mainClass>
-                    <skip>true</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
