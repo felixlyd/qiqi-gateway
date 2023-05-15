@@ -3,10 +3,8 @@
     <!-- 日志存放路径 -->
     <springProperty scope="context" name="logging.file.path" source="logging.file.path" />
     <!-- 日志输出格式 -->
-    <property name="logging.pattern.console"
-              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n"/>
-
-    <property name="logging.pattern.file" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+    <springProperty scope="context" name="logging.pattern.console" source="logging.pattern.console" />
+    <springProperty scope="context" name="logging.pattern.file" source="logging.pattern.file" />
 
     <include resource="logback-qiqi.xml" />
 
