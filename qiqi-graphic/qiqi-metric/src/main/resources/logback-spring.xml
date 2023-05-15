@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 日志存放路径 -->
+    <property name="logging.file.path" value="/home/logs/${project.artifactId}" />
+    <!-- 日志输出格式 -->
+    <property name="logging.pattern.console"
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n"/>
+
+    <property name="logging.pattern.file" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <include resource="logback-qiqi.xml" />
+
+</configuration>

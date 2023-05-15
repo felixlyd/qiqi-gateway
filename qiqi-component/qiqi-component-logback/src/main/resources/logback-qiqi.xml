@@ -2,25 +2,12 @@
 
 <included>
 
-    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
-
     <!-- 控制台输出 -->
-    <appender name="file_console" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logging.file.path}/console.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 日志文件名格式 -->
-            <fileNamePattern>${logging.file.path}/console.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 日志最大 1天 -->
-            <maxHistory>1</maxHistory>
-        </rollingPolicy>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${logging.pattern.console}</pattern>
             <charset>utf-8</charset>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <!-- 过滤的级别 -->
-            <level>INFO</level>
-        </filter>
     </appender>
 
     <!-- 系统日志输出 -->
@@ -34,7 +21,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${logging.pattern.file}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -56,7 +43,7 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${logging.pattern.file}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -89,9 +76,17 @@
     </appender>
 
     <!--系统操作日志-->
-    <root level="info">
-        <appender-ref ref="async_info"/>
-        <appender-ref ref="async_error"/>
-        <appender-ref ref="file_console"/>
-    </root>
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="console" />
+            <appender-ref ref="async_info"/>
+            <appender-ref ref="async_error"/>
+        </root>
+    </springProfile>
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="async_info"/>
+            <appender-ref ref="async_error"/>
+        </root>
+    </springProfile>
 </included>

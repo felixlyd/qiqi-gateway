@@ -1,17 +1,21 @@
+# spring配置
 spring:
   application:
     name: qiqi-app
   jackson:
     date-format: yyyyMMddHHMMss
     time-zone: GMT+8
+  profiles:
+    active: dev
 
-
+# server配置
 server:
   port: 8080
   servlet:
     encoding:
       charset: UTF-8
 
+# eureka配置
 eureka:
   client:
     service-url:
@@ -40,10 +44,8 @@ management:
     health:
       show-details: always
 
+# 日志
 logging:
   level:
     root: info
-  pattern:
-    console: "%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}%n) - %msg%n"
-  file:
-    path: /home/logs/${spring.application.name}
+  config: classpath:logback-spring.xml

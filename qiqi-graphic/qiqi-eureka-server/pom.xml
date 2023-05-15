@@ -18,6 +18,10 @@
             <artifactId>qiqi-component-undertow</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.felixlyd</groupId>
+            <artifactId>qiqi-component-logback</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>

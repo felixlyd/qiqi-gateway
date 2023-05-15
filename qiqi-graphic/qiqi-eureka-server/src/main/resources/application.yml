@@ -2,17 +2,34 @@
 spring:
   application:
     name: qiqi-eureka-server
+  profiles:
+    active: dev
+
 
 # eureka服务端口
 server:
   port: 8761
 
-# eureka配置信息
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:${server.port}/eureka/
-  instance:
-    prefer-ip-address: true
-    ip-address: ${spring.cloud.client.ip-address}
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+# actuator监控
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      # health和info可见, gateway允许动态增加路由
+      # 包括所有端点
+      exposure:
+        include: "*"
+        # 排除端点
+        exclude: shutdown
+  endpoint:
+    shutdown:
+      enabled: false
+    health:
+      show-details: always
+
+# 日志
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
