@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-
     <!-- 日志存放路径 -->
-    <property name="logging.file.path" value="/home/logs/${project.artifactId}" />
+    <springProperty scope="context" name="logging.file.path" source="logging.file.path" />
     <!-- 日志输出格式 -->
     <property name="logging.pattern.console"
               value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n"/>

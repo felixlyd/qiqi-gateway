@@ -49,3 +49,5 @@ logging:
   level:
     root: info
   config: classpath:logback-spring.xml
+  file:
+    path: /home/logs/${spring.application.name}
