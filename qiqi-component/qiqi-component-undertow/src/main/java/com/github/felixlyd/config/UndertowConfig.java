@@ -2,9 +2,9 @@ package com.github.felixlyd.config;
 
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * class UndertowConfig: do something
@@ -12,7 +12,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
  * @author : liuyaodong
  * @date 2023/5/11
  */
-@AutoConfiguration
+@Configuration
 public class UndertowConfig implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
 
     /**
