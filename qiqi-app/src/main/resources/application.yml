@@ -40,7 +40,7 @@ management:
       exposure:
         include: "*"
         # 排除端点
-        exclude: shutdown
+        exclude: shutdown,restart,refresh,caches
   endpoint:
     shutdown:
       enabled: false
