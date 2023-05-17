@@ -1,8 +1,10 @@
 package com.github.felixlyd.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.github.felixlyd.config.properties.SaTokenLoginProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * class AuthController: do something
@@ -12,9 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class AuthController {
-    @PostMapping("/logout")
+
+    @Autowired
+    private SaTokenLoginProperties saTokenLoginProperties;
+
+    @GetMapping("/logout")
     public String logout(){
-        StpUtil.logout(1);
+        StpUtil.logout(saTokenLoginProperties.getLoginId());
         return "redirect:/login";
     }
 }

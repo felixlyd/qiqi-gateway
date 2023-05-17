@@ -9,6 +9,10 @@ spring:
     admin:
       ui:
         title: qiqi-gateway服务监控中心
+        external-views:
+          - label: "注销"
+            url: /logout
+            order: 2000
   # 制定配置文件，配合logback配置中的springProfile标签
   profiles:
     active: dev
@@ -66,4 +70,27 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     path: C:\home/logs/${spring.application.name}
+
+
+qiqi-gateway:
+  sa-token:
+    includeList:
+      - /**
+    excludeList:
+      - /assets/**
+      - /actuator/**
+      - /instances/**
+      - /favicon.ico
+      - /login
+    origin-url-session: origin-url
+    login:
+      index-url: /
+      login-url: /login
+      method: POST
+      username-field: username
+      password-field: password
+      username: admin
+      password: admin
+      login-id: 1
+
 
