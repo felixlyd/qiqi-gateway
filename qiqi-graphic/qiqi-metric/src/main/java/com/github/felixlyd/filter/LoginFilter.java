@@ -11,8 +11,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.dev33.satoken.util.SaTokenConsts;
 import cn.hutool.core.util.StrUtil;
-import com.github.felixlyd.config.properties.SaTokenLoginProperties;
-import com.github.felixlyd.config.properties.SaTokenProperties;
+import com.github.felixlyd.config.properties.SecureLoginProperties;
+import com.github.felixlyd.config.properties.SecureProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -33,8 +33,8 @@ import java.io.IOException;
 @Order(SaTokenConsts.ASSEMBLY_ORDER)
 public class LoginFilter implements Filter {
 
-    private final SaTokenProperties saTokenProperties;
-    private final SaTokenLoginProperties saTokenLoginProperties;
+    private final SecureProperties secureProperties;
+    private final SecureLoginProperties secureLoginProperties;
 
 
     /**
@@ -42,9 +42,9 @@ public class LoginFilter implements Filter {
      */
     public SaFilterErrorStrategy error = e -> SaResult.error(e.getMessage());
 
-    public LoginFilter(SaTokenProperties saTokenProperties, SaTokenLoginProperties saTokenLoginProperties) {
-        this.saTokenProperties = saTokenProperties;
-        this.saTokenLoginProperties = saTokenLoginProperties;
+    public LoginFilter(SecureProperties secureProperties, SecureLoginProperties secureLoginProperties) {
+        this.secureProperties = secureProperties;
+        this.secureLoginProperties = secureLoginProperties;
     }
 
 
@@ -55,16 +55,16 @@ public class LoginFilter implements Filter {
             HttpServletResponse response = (HttpServletResponse) servletResponse;
 
             // 拦截登录逻辑
-            if (StrUtil.equals(request.getMethod(), saTokenLoginProperties.getMethod())
-                    && StrUtil.equals(request.getRequestURI(), saTokenLoginProperties.getLoginUrl())) {
-                String username = request.getParameter(saTokenLoginProperties.getUsernameField());
-                String password = request.getParameter(saTokenLoginProperties.getPasswordField());
-                if (StrUtil.equals(username, saTokenLoginProperties.getUsername())
-                        && StrUtil.equals(password, saTokenLoginProperties.getPassword())) {
-                    StpUtil.login(saTokenLoginProperties.getLoginId());
-                    SaSession saSession = SaSessionCustomUtil.getSessionById(saTokenProperties.getOriginUrlSession());
-                    String originUrl = String.valueOf(saSession.get(saTokenProperties.getOriginUrlSession()));
-                    response.sendRedirect(StrUtil.equals(originUrl, saTokenLoginProperties.getLoginUrl())?saTokenLoginProperties.getIndexUrl():originUrl);
+            if (StrUtil.equals(request.getMethod(), secureLoginProperties.getMethod())
+                    && StrUtil.equals(request.getRequestURI(), secureLoginProperties.getLoginUrl())) {
+                String username = request.getParameter(secureLoginProperties.getUsernameField());
+                String password = request.getParameter(secureLoginProperties.getPasswordField());
+                if (StrUtil.equals(username, secureLoginProperties.getUsername())
+                        && StrUtil.equals(password, secureLoginProperties.getPassword())) {
+                    StpUtil.login(secureLoginProperties.getLoginId());
+                    SaSession saSession = SaSessionCustomUtil.getSessionById(secureProperties.getOriginUrlSession());
+                    String originUrl = String.valueOf(saSession.get(secureProperties.getOriginUrlSession()));
+                    response.sendRedirect(StrUtil.equals(originUrl, secureLoginProperties.getLoginUrl())? secureLoginProperties.getIndexUrl():originUrl);
                     return;
                 } else {
                     throw new NotLoginException("用户名密码不正确！", StpUtil.getLoginType(), "-2");
@@ -72,15 +72,15 @@ public class LoginFilter implements Filter {
             }
 
             // 拦截注销逻辑
-            if(StrUtil.equals(request.getRequestURI(), saTokenLoginProperties.getLogoutUrl())){
-                StpUtil.logout(saTokenLoginProperties.getLoginId());
-                response.sendRedirect(saTokenLoginProperties.getLoginUrl());
+            if(StrUtil.equals(request.getRequestURI(), secureLoginProperties.getLogoutUrl())){
+                StpUtil.logout(secureLoginProperties.getLoginId());
+                response.sendRedirect(secureLoginProperties.getLoginUrl());
                 return;
             }
 
             // 全局拦截，校验是否登录
-            SaRouter.match(this.saTokenProperties.getIncludeList())
-                    .notMatch(this.saTokenProperties.getExcludeList())
+            SaRouter.match(this.secureProperties.getIncludeList())
+                    .notMatch(this.secureProperties.getExcludeList())
                     .check(r -> {
                         StpUtil.checkLogin();
                     });
@@ -91,9 +91,9 @@ public class LoginFilter implements Filter {
             log.info(e.getMessage());
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-            SaSession saSession = SaSessionCustomUtil.getSessionById(saTokenProperties.getOriginUrlSession());
-            saSession.set(saTokenProperties.getOriginUrlSession(), httpServletRequest.getRequestURI());
-            httpServletResponse.sendRedirect(saTokenLoginProperties.getLoginUrl());
+            SaSession saSession = SaSessionCustomUtil.getSessionById(secureProperties.getOriginUrlSession());
+            saSession.set(secureProperties.getOriginUrlSession(), httpServletRequest.getRequestURI());
+            httpServletResponse.sendRedirect(secureLoginProperties.getLoginUrl());
         } catch (Throwable e) {
             // 1. 获取异常处理策略结果
             String result = (e instanceof BackResultException) ? e.getMessage() : String.valueOf(error.run(e));

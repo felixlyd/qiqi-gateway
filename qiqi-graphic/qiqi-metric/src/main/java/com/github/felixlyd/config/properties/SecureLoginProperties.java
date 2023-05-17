@@ -6,16 +6,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * class SaTokenLoginProperties: do something
+ * class SecureLoginProperties: do something
  *
  * @author : liuyaodong
  * @date 2023/5/17
  */
-@ConfigurationProperties("qiqi-gateway.sa-token.login")
+@ConfigurationProperties("qiqi-gateway.secure.login")
 @Configuration
 @Getter
 @Setter
-public class SaTokenLoginProperties {
+public class SecureLoginProperties {
     private String loginUrl;
     private String logoutUrl;
     private String indexUrl;

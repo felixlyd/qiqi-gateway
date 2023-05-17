@@ -8,16 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * class SaTokenProperties: do something
+ * class SecureProperties: do something
  *
  * @author : liuyaodong
  * @date 2023/5/17
  */
-@ConfigurationProperties("qiqi-gateway.sa-token")
+@ConfigurationProperties("qiqi-gateway.secure")
 @Configuration
 @Getter
 @Setter
-public class SaTokenProperties {
+public class SecureProperties {
 
     /**
      * 拦截路由
