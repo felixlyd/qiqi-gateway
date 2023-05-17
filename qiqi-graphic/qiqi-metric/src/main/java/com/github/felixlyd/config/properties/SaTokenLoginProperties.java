@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class SaTokenLoginProperties {
     private String loginUrl;
+    private String logoutUrl;
     private String indexUrl;
     private String method;
     private String username;

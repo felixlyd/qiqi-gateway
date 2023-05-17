@@ -3,7 +3,6 @@ package com.github.felixlyd.filter;
 
 import cn.dev33.satoken.exception.BackResultException;
 import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.StopMatchException;
 import cn.dev33.satoken.filter.SaFilterErrorStrategy;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.session.SaSession;
@@ -55,6 +54,7 @@ public class LoginFilter implements Filter {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+            // 拦截登录逻辑
             if (StrUtil.equals(request.getMethod(), saTokenLoginProperties.getMethod())
                     && StrUtil.equals(request.getRequestURI(), saTokenLoginProperties.getLoginUrl())) {
                 String username = request.getParameter(saTokenLoginProperties.getUsernameField());
@@ -70,17 +70,24 @@ public class LoginFilter implements Filter {
                     throw new NotLoginException("用户名密码不正确！", StpUtil.getLoginType(), "-2");
                 }
             }
-            // 执行全局过滤器
+
+            // 拦截注销逻辑
+            if(StrUtil.equals(request.getRequestURI(), saTokenLoginProperties.getLogoutUrl())){
+                StpUtil.logout(saTokenLoginProperties.getLoginId());
+                response.sendRedirect(saTokenLoginProperties.getLoginUrl());
+                return;
+            }
+
+            // 全局拦截，校验是否登录
             SaRouter.match(this.saTokenProperties.getIncludeList())
                     .notMatch(this.saTokenProperties.getExcludeList())
                     .check(r -> {
                         StpUtil.checkLogin();
                     });
-            filterChain.doFilter(servletRequest, servletResponse);
-        } catch (StopMatchException e) {
-            log.info(e.getMessage());
+
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (NotLoginException e) {
+            // 未登录逻辑
             log.info(e.getMessage());
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;

@@ -86,6 +86,7 @@ qiqi-gateway:
     login:
       index-url: /
       login-url: /login
+      logout-url: /logout
       method: POST
       username-field: username
       password-field: password
