@@ -7,6 +7,7 @@ import cn.dev33.satoken.filter.SaFilterErrorStrategy;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.session.SaSessionCustomUtil;
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.dev33.satoken.util.SaTokenConsts;
@@ -61,10 +62,14 @@ public class LoginFilter implements Filter {
                 String password = request.getParameter(secureLoginProperties.getPasswordField());
                 if (StrUtil.equals(username, secureLoginProperties.getUsername())
                         && StrUtil.equals(password, secureLoginProperties.getPassword())) {
-                    StpUtil.login(secureLoginProperties.getLoginId());
+                    StpUtil.login(secureLoginProperties.getLoginId(),
+                            new SaLoginModel()
+                                    .setIsLastingCookie(StrUtil.isNotBlank(request.getParameter(secureLoginProperties.getRememberMeField())))
+                                    .setTimeout(secureLoginProperties.getValidSeconds())
+                    );
                     SaSession saSession = SaSessionCustomUtil.getSessionById(secureProperties.getOriginUrlSession());
                     String originUrl = String.valueOf(saSession.get(secureProperties.getOriginUrlSession()));
-                    response.sendRedirect(StrUtil.equals(originUrl, secureLoginProperties.getLoginUrl())? secureLoginProperties.getIndexUrl():originUrl);
+                    response.sendRedirect(StrUtil.equals(originUrl, secureLoginProperties.getLoginUrl()) ? secureLoginProperties.getIndexUrl() : originUrl);
                     return;
                 } else {
                     throw new NotLoginException("用户名密码不正确！", StpUtil.getLoginType(), "-2");
@@ -72,7 +77,7 @@ public class LoginFilter implements Filter {
             }
 
             // 拦截注销逻辑
-            if(StrUtil.equals(request.getRequestURI(), secureLoginProperties.getLogoutUrl())){
+            if (StrUtil.equals(request.getRequestURI(), secureLoginProperties.getLogoutUrl())) {
                 StpUtil.logout(secureLoginProperties.getLoginId());
                 response.sendRedirect(secureLoginProperties.getLoginUrl());
                 return;
@@ -81,9 +86,7 @@ public class LoginFilter implements Filter {
             // 全局拦截，校验是否登录
             SaRouter.match(this.secureProperties.getIncludeList())
                     .notMatch(this.secureProperties.getExcludeList())
-                    .check(r -> {
-                        StpUtil.checkLogin();
-                    });
+                    .check(r -> StpUtil.checkLogin());
 
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (NotLoginException e) {

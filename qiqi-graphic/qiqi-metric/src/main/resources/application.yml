@@ -94,5 +94,7 @@ qiqi-gateway:
       username: admin
       password: admin
       login-id: 1
+      remember-me-field: remember-me
+      valid-seconds: 300
 
 

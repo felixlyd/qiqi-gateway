@@ -22,7 +22,11 @@ public class SecureLoginProperties {
     private String method;
     private String username;
     private String password;
-    private String loginId;
+    private int loginId;
     private String usernameField;
     private String passwordField;
+
+    private String rememberMeField;
+
+    private int validSeconds;
 }
