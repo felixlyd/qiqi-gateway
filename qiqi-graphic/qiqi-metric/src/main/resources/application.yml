@@ -12,7 +12,7 @@ spring:
         # 方案1: 为sa-token增加一个注销页面
         external-views:
           - label: "注销"
-            url: ${qiqi-gateway.sa-token.login.logout-url}
+            url: /logout
             order: 2000
   # 制定配置文件，配合logback配置中的springProfile标签
   profiles:
