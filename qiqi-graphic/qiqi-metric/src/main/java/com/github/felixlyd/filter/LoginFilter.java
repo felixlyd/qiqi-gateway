@@ -90,7 +90,10 @@ public class LoginFilter implements Filter {
             // 全局拦截，校验是否登录
             SaRouter.match(this.secureProperties.getIncludeList())
                     .notMatch(this.secureProperties.getExcludeList())
-                    .check(r -> StpUtil.checkLogin());
+                    .check(r -> {
+                        log.info(request.getRequestURI());
+                        StpUtil.checkLogin();
+                    });
 
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (NotLoginException e) {
