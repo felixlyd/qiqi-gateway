@@ -1,4 +1,4 @@
-package com.github.felixlyd.config;
+package com.github.felixlyd.undertow.config;
 
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
