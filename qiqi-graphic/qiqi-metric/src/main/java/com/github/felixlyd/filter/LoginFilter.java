@@ -72,7 +72,11 @@ public class LoginFilter implements Filter {
                     response.sendRedirect(StrUtil.equals(originUrl, secureLoginProperties.getLoginUrl()) ? secureLoginProperties.getIndexUrl() : originUrl);
                     return;
                 } else {
-                    throw new NotLoginException("用户名密码不正确！", StpUtil.getLoginType(), "-2");
+                    log.info("无效的用户名或密码！");
+                    // spring-boot-admin提供的错误页面
+                    String loginErrorUrl = secureLoginProperties.getLoginUrl()+"?error";
+                    response.sendRedirect(loginErrorUrl);
+                    return;
                 }
             }
 
